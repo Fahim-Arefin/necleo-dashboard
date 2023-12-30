@@ -1,12 +1,14 @@
-import NavBar from "../components/NavBar";
+import { Outlet } from "react-router-dom";
 import SideBar from "../components/SideBar";
 
 function AppLayout() {
   return (
-    <div className="flex">
-      <SideBar />
-      <NavBar />
-    </div>
+    <>
+      <div className="flex">
+        <SideBar />
+        <Outlet />
+      </div>
+    </>
   );
 }
 

@@ -1,15 +1,15 @@
 import { RxHamburgerMenu } from "react-icons/rx";
 function SideBar() {
   return (
-    <div className="drawer lg:drawer-open w-24 md:w-[241px]">
+    <div className="drawer lg:drawer-open w-24 md:w-[241px] z-20">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col items-center justify-center bg-white">
         {/* Page content here */}
         <label
           htmlFor="my-drawer-2"
-          className="btn btn-primary drawer-button lg:hidden"
+          className="btn bg-[#FA782F] drawer-button lg:hidden"
         >
-          <RxHamburgerMenu />
+          <RxHamburgerMenu className="text-white" />
         </label>
       </div>
       <div className="drawer-side">
@@ -119,7 +119,7 @@ function SideBar() {
                     </svg>
                   </div>
                   <div>
-                    <a>My Projects</a>
+                    <a className="text-[#FA782F]">My Projects</a>
                   </div>
                 </li>
                 <li className=" flex justify-start items-center space-x-3 cursor-pointer">
