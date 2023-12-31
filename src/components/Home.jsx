@@ -105,6 +105,7 @@ function Home() {
     };
     fetchData();
   }, [defaultData]);
+
   console.log(imgData);
   console.log(data);
   console.log("selected obj", selected);
@@ -115,6 +116,32 @@ function Home() {
   const handleDetailsClick = (data) => {
     detailsRef.current.showModal();
     setSelected(data);
+  };
+
+  const handleDelete = () => {
+    console.log("delete it ");
+    detailsRef.current.close();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const filterData = data.filter((item) => item.id != selected.id);
+        // console.log("filtered", filterData);
+        setData(filterData);
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const handleSubmit = (e) => {
@@ -302,6 +329,7 @@ function Home() {
                 Edit
               </button>
               <button
+                onClick={handleDelete}
                 className="px-2 py-1.5 bg-red-500 rounded-md text-white text-sm flex space-x-1 items-center
         hover:bg-red-600"
               >
