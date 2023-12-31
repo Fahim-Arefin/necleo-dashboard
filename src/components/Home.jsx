@@ -88,10 +88,12 @@ function Home() {
   const [endDate, setEndDate] = useState(new Date());
   const [minDate, setMinDate] = useState(startDate);
 
-  const [selected, setSelected] = useState({});
+  const [selected, setSelected] = useState(null);
 
   const formModalRef = useRef();
   const detailsRef = useRef();
+  const updateRef = useRef();
+  const diffKey = useRef(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,6 +111,7 @@ function Home() {
   console.log(imgData);
   console.log(data);
   console.log("selected obj", selected);
+  console.log("Title", title);
 
   const handleClick = () => {
     formModalRef.current.showModal();
@@ -116,6 +119,8 @@ function Home() {
   const handleDetailsClick = (data) => {
     detailsRef.current.showModal();
     setSelected(data);
+    setStartDate(data.startDate);
+    setEndDate(data.endDate);
   };
 
   const handleDelete = () => {
@@ -135,6 +140,9 @@ function Home() {
         // console.log("filtered", filterData);
         setData(filterData);
 
+        setSelected(null);
+        setStartDate(new Date());
+        setEndDate(new Date());
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
@@ -163,8 +171,50 @@ function Home() {
     setEndDate(new Date());
     formModalRef.current.close();
     Swal.fire({
-      title: "Good job!",
+      title: "Created!",
       text: "Successfully Created New Project",
+      icon: "success",
+    });
+  };
+
+  const handleUpdate = () => {
+    updateRef.current.showModal();
+    detailsRef.current.close();
+  };
+
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    const newData = {
+      id: selected.id,
+      title: e.target.title.value,
+      category: e.target.category.value,
+      description: e.target.description.value,
+      startDate,
+      endDate,
+      img: selected.img,
+    };
+    console.log("New DAta", newData);
+    const filteredData = data.map((item) => {
+      if (item.id === selected.id) {
+        console.log("found");
+        return { ...item, ...newData };
+      } else {
+        return item;
+      }
+    });
+    console.log("inside hand", filteredData);
+    setData([...filteredData]);
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setSelected(null);
+    setStartDate(new Date());
+    setEndDate(new Date());
+    diffKey.current = diffKey.current + 1;
+    updateRef.current.close();
+    detailsRef.current.close();
+    Swal.fire({
+      title: "Updated!",
+      text: "Successfully Updated New Project",
       icon: "success",
     });
   };
@@ -225,7 +275,7 @@ function Home() {
             />
           ))}
         </div>
-        {/* Modal */}
+        {/* Modals */}
         <Modal header="Add Project" modalRef={formModalRef}>
           <form onSubmit={handleSubmit} className="space-y-3 p-4">
             {/* title */}
@@ -318,10 +368,11 @@ function Home() {
         </Modal>
         <Modal header="Details" modalRef={detailsRef}>
           <div className="p-4 space-y-4">
-            <h1 className="text-xl font-semibold">{selected.title}</h1>
-            <p>{selected.description}</p>
+            <h1 className="text-xl font-semibold">{selected?.title}</h1>
+            <p>{selected?.description}</p>
             <div className="flex space-x-2">
               <button
+                onClick={handleUpdate}
                 className="px-2 py-1.5 bg-[#FA782F] rounded-md text-white text-sm flex space-x-1 items-center
         hover:bg-[#ff660e]"
               >
@@ -338,6 +389,100 @@ function Home() {
               </button>
             </div>
           </div>
+        </Modal>
+        <Modal
+          key={diffKey.current}
+          header="Update Project"
+          modalRef={updateRef}
+        >
+          <form onSubmit={handleUpdateSubmit} className="space-y-3 p-4">
+            {/* title */}
+            <div className="">
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text">Title</span>
+                </div>
+                <input
+                  name="title"
+                  defaultValue={selected?.title}
+                  required
+                  type="text"
+                  placeholder="Title"
+                  className="input input-bordered input-sm"
+                />
+              </label>
+            </div>
+            {/* duration */}
+            <div className="flex gap-x-3">
+              <div>
+                <div className="label">
+                  <span className="label-text">Start Date</span>
+                </div>
+                <DatePicker
+                  className="border rounded-md text-center"
+                  selected={startDate}
+                  onChange={(date) => {
+                    setStartDate(date);
+                    setMinDate(date);
+                    setEndDate(date);
+                  }}
+                />
+              </div>
+              <div>
+                <div className="label">
+                  <span className="label-text">End Date</span>
+                </div>
+                <DatePicker
+                  className="border rounded-md text-center"
+                  selected={endDate}
+                  onChange={(date) => {
+                    setEndDate(date);
+                  }}
+                  minDate={minDate}
+                />
+              </div>
+            </div>
+            {/* category */}
+            <div className="">
+              <label className="form-control w-full">
+                <div className="label">
+                  <span className="label-text">Category</span>
+                </div>
+                <input
+                  name="category"
+                  defaultValue={selected?.category}
+                  required
+                  type="text"
+                  placeholder="category"
+                  className="input input-bordered input-sm"
+                />
+              </label>
+            </div>
+            {/* description */}
+            <div className="">
+              <label className="form-control">
+                <div className="label">
+                  <span className="label-text">Description</span>
+                </div>
+                <textarea
+                  name="description"
+                  defaultValue={selected?.description}
+                  required
+                  className="textarea textarea-bordered h-24"
+                  placeholder="description"
+                ></textarea>
+              </label>
+            </div>
+            <div className="">
+              <button
+                className="px-3 py-1.5 bg-[#FA782F] rounded-md text-white text-sm flex space-x-1 items-center
+        hover:bg-[#ff660e]"
+              >
+                <IoIosCreate />
+                <div>Update</div>
+              </button>
+            </div>
+          </form>
         </Modal>
       </div>
     </div>
