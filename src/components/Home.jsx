@@ -295,7 +295,7 @@ function Home() {
               </label>
             </div>
             {/* duration */}
-            <div className="flex gap-x-3">
+            <div className="flex justify-between flex-wrap">
               <div>
                 <div className="label">
                   <span className="label-text">Start Date</span>
@@ -413,7 +413,7 @@ function Home() {
               </label>
             </div>
             {/* duration */}
-            <div className="flex gap-x-3">
+            <div className="flex justify-between flex-wrap">
               <div>
                 <div className="label">
                   <span className="label-text">Start Date</span>

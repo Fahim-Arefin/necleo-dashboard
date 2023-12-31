@@ -33,7 +33,7 @@ function calculateDaysDuration(startDate, endDate) {
 
 const Card = ({ data, handleDetailsClick }) => {
   return (
-    <div className="col-span-1 max-w-xs bg-white shadow-lg rounded-lg overflow-hidden m-4">
+    <div className="col-span-1 bg-white shadow-lg rounded-lg overflow-hidden m-4">
       <img
         className="w-full h-48 object-cover"
         src={data.img}
