@@ -1,6 +1,6 @@
 function NavBar() {
   return (
-    <div className="navbar bg-white w-full h-fit">
+    <div className="sticky top-0 navbar bg-white w-full h-fit">
       <div className="flex-1">
         {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
       </div>

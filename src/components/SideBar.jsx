@@ -1,9 +1,9 @@
 import { RxHamburgerMenu } from "react-icons/rx";
 function SideBar() {
   return (
-    <div className="drawer lg:drawer-open w-24 md:w-[241px] z-20">
+    <div className="drawer lg:drawer-open w-24 lg:w-[241px] z-20">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col items-center justify-center bg-white">
+      <div className="drawer-content flex flex-col items-center mt-2 bg-white ">
         {/* Page content here */}
         <label
           htmlFor="my-drawer-2"
